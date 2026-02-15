@@ -1,0 +1,16 @@
+# Build artifacts
+/target/
+*.pdb
+debug/
+
+# Editor / IDE
+.idea/
+.vscode/
+*.code-workspace
+*.swo
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
