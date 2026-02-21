@@ -132,8 +132,8 @@ pub(crate) async fn handle_sync_request<S: StateMachine, T: Storage>(
             .state_machine
             .snapshot()
             .map_err(|e| CatchupError::StateMachine(e.to_string()))?;
-        let snap_bytes =
-            rmp_serde::to_vec(&snap).map_err(|e| CatchupError::Serialization(e.to_string()))?;
+        let snap_bytes = rmp_serde::to_vec_named(&snap)
+            .map_err(|e| CatchupError::Serialization(e.to_string()))?;
         Some(SnapshotPayload {
             sequence: leader_sequence,
             data: snap_bytes,

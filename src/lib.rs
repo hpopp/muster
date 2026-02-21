@@ -74,8 +74,10 @@ pub trait StateMachine: Send + Sync + 'static {
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct NodeState {
     pub current_term: u64,
+    #[serde(default)]
     pub last_applied_sequence: u64,
     pub node_id: String,
+    #[serde(default)]
     pub voted_for: Option<String>,
 }
 
@@ -197,8 +199,8 @@ impl<S: StateMachine, T: Storage> MusterNode<S, T> {
         }
 
         // Serialize and append to replication log
-        let op_bytes =
-            rmp_serde::to_vec(&operation).map_err(|e| MusterError::Serialization(e.to_string()))?;
+        let op_bytes = rmp_serde::to_vec_named(&operation)
+            .map_err(|e| MusterError::Serialization(e.to_string()))?;
         let sequence = self
             .storage
             .append_next_log_entry(&op_bytes)
@@ -232,8 +234,8 @@ impl<S: StateMachine, T: Storage> MusterNode<S, T> {
             leader_address: None,
         })?;
 
-        let op_bytes =
-            rmp_serde::to_vec(&operation).map_err(|e| MusterError::Serialization(e.to_string()))?;
+        let op_bytes = rmp_serde::to_vec_named(&operation)
+            .map_err(|e| MusterError::Serialization(e.to_string()))?;
 
         let response = self
             .transport
@@ -322,8 +324,8 @@ impl<S: StateMachine, T: Storage> MusterNode<S, T> {
             voted_for: cluster.voted_for.clone(),
             last_applied_sequence: cluster.last_applied_sequence,
         };
-        let data =
-            rmp_serde::to_vec(&state).map_err(|e| MusterError::Serialization(e.to_string()))?;
+        let data = rmp_serde::to_vec_named(&state)
+            .map_err(|e| MusterError::Serialization(e.to_string()))?;
         self.storage
             .put_node_state(&data)
             .map_err(|e| MusterError::Storage(e.to_string()))?;
@@ -373,8 +375,8 @@ fn load_cluster_state<T: Storage>(
         }
         None => {
             let state = NodeState::new(config.node_id.clone());
-            let data =
-                rmp_serde::to_vec(&state).map_err(|e| MusterError::Serialization(e.to_string()))?;
+            let data = rmp_serde::to_vec_named(&state)
+                .map_err(|e| MusterError::Serialization(e.to_string()))?;
             storage
                 .put_node_state(&data)
                 .map_err(|e| MusterError::Storage(e.to_string()))?;

@@ -76,7 +76,7 @@ impl ClusterTransport {
         peer_addr: &str,
         message: ClusterMessage,
     ) -> Result<ClusterMessage, TransportError> {
-        let payload = rmp_serde::to_vec(&message)?;
+        let payload = rmp_serde::to_vec_named(&message)?;
 
         let tx = self.get_or_spawn_peer(peer_addr).await;
 
@@ -100,7 +100,7 @@ impl ClusterTransport {
         peer_addr: &str,
         message: ClusterMessage,
     ) -> Result<(), TransportError> {
-        let payload = rmp_serde::to_vec(&message)?;
+        let payload = rmp_serde::to_vec_named(&message)?;
 
         let tx = self.get_or_spawn_peer(peer_addr).await;
 

@@ -67,7 +67,7 @@ async fn handle_connection<S: StateMachine, T: Storage>(
         let frame = frame?;
         let msg: ClusterMessage = rmp_serde::from_slice(&frame)?;
         let response = dispatch(Arc::clone(&node), msg).await;
-        let payload = rmp_serde::to_vec(&response)?;
+        let payload = rmp_serde::to_vec_named(&response)?;
         framed.send(Bytes::from(payload)).await?;
     }
 

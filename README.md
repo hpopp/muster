@@ -1,5 +1,5 @@
 [![CI](https://github.com/hpopp/muster/actions/workflows/ci.yml/badge.svg)](https://github.com/hpopp/muster/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-0.1.0-orange.svg)](https://github.com/hpopp/muster/commits/main)
+[![Version](https://img.shields.io/badge/version-0.2.0-orange.svg)](https://github.com/hpopp/muster/commits/main)
 [![Last Updated](https://img.shields.io/github/last-commit/hpopp/muster.svg)](https://github.com/hpopp/muster/commits/main)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
